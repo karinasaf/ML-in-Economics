@@ -1,6 +1,6 @@
 ---
 title: "Machine Learning in Economics (D200)"
-subtitle: "Syllabus (Lent 2025)"
+subtitle: "Syllabus (Lent 2026)"
 author: "Dr. Stefan Bucher"
 format: 
   pdf: 
@@ -12,7 +12,7 @@ bibliography: references.bib
 **University of Cambridge** **Faculty of Economics**
 
 **Course Code and Title:** Machine Learning in Economics (D200)\
-**Term:** Lent Term 2025\
+**Term:** Lent Term 2026\
 **Lecturer:** Dr. Stefan Bucher \
 **Office Hours:** Wed 3.00pm-4.00pm. Sign up [here](https://calendly.com/stefabu/office-hours)
 
@@ -21,7 +21,7 @@ bibliography: references.bib
 **Teaching Assistant:** Vahan Geghamyan 
 
 **Course Website:** <https://github.com/MLecon/ML-in-Economics> \
-**Assignment Submission:** [Github Classroom](https://classroom.github.com/classrooms/195107486-machine-learning-in-economics-2025)\
+**Assignment Submission:** [Github Classroom](https://classroom.github.com/classrooms/195107486-machine-learning-in-economics-2026)\
 **Readings:** [Zotero Group Library](https://www.zotero.org/groups/ml_econ)\
 **Recordings of further interest:** [Youtube Playlist](https://youtube.com/playlist?list=PLo8op7DIq2yhVzg8sUVAc36PRDZVOw6GD&si=ZV1YOyqJCbzlFdF9)
 
@@ -81,7 +81,7 @@ Linear Algebra, calculus, probability theory and statistics, as well as programm
 
 # Contents and Schedule
 
-### Introduction and Foundations - Week 1 (24 January)
+### Introduction and Foundations - Week 1 (24 January 2026)
 
 -   A brief overview of AI, ML, and Deep Learning [@prince2023, Chapter 1]
 -   Probability and information theory fundamentals [@prince2023, Appendix C]
@@ -89,85 +89,118 @@ Linear Algebra, calculus, probability theory and statistics, as well as programm
 
 ## Part 1: Supervised Machine Learning
 
-### Prediction and Linear Regression - Week 2 (31 January)
+### Prediction and Linear Regression - Week 2 (31 January 2026)
 
 -   Linear Regression: Minimizing mean-squared error using matrix notation [@prince2023, Chapter 2]
--   Optimization and stochastic gradient descent [@prince2023, Chapter 6]
+-   Optimization: Gradient descent, stochastic gradient descent, Adam optimizer [@prince2023, Chapter 6]
 -   Model Evaluation: Bias-variance tradeoff and overfitting, training/test set and cross-validation, double descent [@prince2023, Chapter 8]
 -   sklearn
 -   PyTorch
+-   Introduction to Research Project  
 
 
-### Classification and Logistic Regression - Week 3 (7 February)
+### Classification and Logistic Regression - Week 3 (7 February 2026)
 
 -   Multinomial Logit and Discrete Choice 
 -   Loss functions [@prince2023, Chapter 5]
--   Regularization [@prince2023, Chapter 9]
--   Multi-Layer Perceptron
+-   Regularization: Explicit and implicit regularization, dropout, ensemble methods, transfer learning [@prince2023, Chapter 9]
+
+::: {.content-hidden}
+#### Topics Not Currently Covered
+
 -   Support Vector Machines (SVM)
 -   Decision/classification trees
 -   Ensemble Methods: Boosting and bagging, random forests, gradient boosting machines
+-   Kernel ridge regression
+-   Gaussian Process Models
+:::
 
 
-### Artificial Neural Networks and Deep Learning - Week 4 (14 February)
+### Artificial Neural Networks and Deep Learning - Week 4 (14 February 2026)
 
--   Introduction to Research Project  
--   Deep learning as a nonlinear model (like GLM) [@prince2023, Chapter 3]
--   Feedforward neural networks (=multi-layer perceptrons) [@prince2023, Chapter 4]
--   Backprop and stochastic gradient descent [@prince2023, Chapter 7]
+-   Nonlinear models (e.g., GLM)
+-   Shallow neural networks  [@prince2023, Chapter 3]
+-   Deep feedforward neural networks (multi-layer perceptrons) [@prince2023, Chapter 4]
+-   Backpropagation [@prince2023, Chapter 7]
 
 
-### Representation Learning and Natural Language Processing (NLP) - Week 5 (21 February)
+### Representation Learning and Natural Language Processing (NLP) - Week 5 (21 February 2026)
 
 -   Convolutional neural networks (CNN) [@prince2023, Chapter 10]
--   Transformers and Large Language Models (LLM) [@prince2023, Chapter 12.1-12.6]
--   Extra: Sequence and time series modeling: Recurrent neural networks (RNN), Hopfield network, LSTM
--   Extra: Word embedding (e.g. Word2Vec)
+-   Transformers: Self-attention mechanism, encoder-decoder architecture [@prince2023, Chapter 12.1-12.6]
+-   Large Language Models
+-   Post-training: Finetuning and adaptation (e.g., QLoRA)
+
+::: {.content-hidden}
+#### Topics Not Currently Covered
+
+-   Sequence and time series modeling: Recurrent neural networks (RNN), Hopfield network, LSTM
+-   Word embedding (e.g., Word2Vec)
+-   Graph Neural Networks (GNN)
+:::
 
 
 ## Part 2: Unsupervised Machine Learning
 
-### Generative AI - Week 6 (28 February)
+### Generative AI - Week 6 (28 February 2026)
 
 -   Generative Pre-trained Transformers (GPT) [@prince2023, Chapter 12.7-12.10]
 -   Unsupervised Learning [@prince2023, Chapter 14]
-  -   Gaussian Mixture Models, Expectation Minimization (vs gradient descent)
-  -   Clustering: K-means
-  -   Dimensionality reduction: PCA and ICA
--   Variational Autoencoders (VAE), variational Bayesian methods, ELBO [@prince2023, Chapter 17]
+-   Variational Autoencoders (VAE) [@prince2023, Chapter 17]
 -   Diffusion Models [@prince2023, Chapter 18]
--   \*Generative Adversarial Networks (GANs) [@prince2023, Chapter 15]
+
+::: {.content-hidden}
+#### Topics Not Currently Covered
+
+- Unsupervised Learning: 
+  - Gaussian Mixture Models, Expectation Maximization (vs gradient descent)
+  - Clustering (K-means)
+  - Dimensionality reduction (PCA, ICA)
+-   Generative Adversarial Networks (GANs) [@prince2023, Chapter 15]
+:::
 
 
 ## Part 3: Reinforcement Learning
 
-### Reinforcement Learning - Week 7 (7 March)
+### Reinforcement Learning - Week 7 (7 March 2026)
 
--   Reinforcement Learning [@prince2023, Chapter 19]
--   Hidden Markov Models (HMM) and Markov Decision Processes
+-   Reinforcement Learning: Markov Decision Processes (MDP), policies, value functions [@prince2023, Chapter 19]
+-   Bellman equations
+-   Q-Learning and Deep Q-Networks
+-   Proximal Policy Optimization (PPO)
+
+::: {.content-hidden}
+#### Topics Not Currently Covered
+
+-   Hidden Markov Models (HMM)
 -   Multi-armed bandit testing
 -   Bandit Gradient Algorithm as Stochastic Gradient Descent
--   Q-Learning
--   SOTA RL algorithm (e.g. PPO)
--   Deep Q-Networks
 -   @silver2016
 -   @schrittwieser2020
 -   Inverse Reinforcement Learning
+:::
 
 
 ## Part 4: ML and Economics
 
-### ML and Economics - Week 8 (14 March)
+### Synthesis: Information-Theoretic Lens - Week 8 (14 March 2026)
 
 -   Review and synthesis: The information-theoretic lens as a unifying principle [@alemi2024]
--   ML and Economics [@athey2019]
+-   Unified view of supervised learning, unsupervised learning, and representation learning through KL divergence minimization
+-   Reinforcement Learning from Human Feedback (RLHF): Alignment of Large Language Models
+
+### ML and Economics - Week 9 (21 March 2026)
+
+-   Prediction vs. estimation/inference [@athey2019]
+-   Applications of ML in economics
+
+::: {.content-hidden}
+#### Topics Not Currently Covered
+
 -   Brief remarks on causal inference (separate module)
 -   Matrix completion problem: Consumer choice modeling and application to recommender systems
+:::
 
-
-### Project Presentations - Week 9 (21 March)
-
--   Project presentations
 
 
 # Classes and Problem Sets 
@@ -175,13 +208,6 @@ Linear Algebra, calculus, probability theory and statistics, as well as programm
 Classes are meant to discuss problem sets and questions arising from the lectures as well as (towards the end of the term) the research projects. 
 Problem sets are to be submitted in groups of 4 students (of varying configuration) on Github Classroom.
 
-<!--
-23 January: PS 1 (due 6 February)
-6 February: PS 2 (due 20 February)
-20 February: PS 3 (due 6 March)
-6 March: project ideas
-20 March: final review and project questions
--->
 
 # Assessment
 
@@ -194,31 +220,28 @@ All elements are essential and constitute 100% weighting.
 
 
 # Key Dates
-24 Jan
+24 Jan 2026
 : First Lecture
 
-4 Feb 
-: Problem Set 1 due <!-- distributed 24 Jan-->
+5 Feb 2026 (12 noon)
+: Problem Set 1 due <!-- distributed 23 January 2026-->
 
-18 Feb   
-: Problem Set 2 due <!-- distributed 7 Feb-->
+19 Feb 2026 (12 noon)
+: Problem Set 2 due <!-- distributed 6 February 2026-->
 
-4 Mar  
-: Problem Set 3 due <!-- distributed 14 Feb-->
+5 March 2026 (12 noon)
+: Problem Set 3 due <!-- distributed 20 February 2026-->
 
-10 Mar 
-: Project proposal due <!-- announced 28 Feb-->
+16 Mar 2026
+: Project report due 
 
-21 Mar
-: Project presentations (last lecture) 
+23-25 Mar 2026
+: Oral examination
 
-24 Mar 
-: Draft of project report due
-
-7 Apr 
-: Final project report due 
-
-
+<!--
+31 Jan 2026 (lecture): Project announced
+20 March 2026 (class): final review
+-->
 
 
 
