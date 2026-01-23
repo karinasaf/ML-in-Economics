@@ -1,0 +1,18 @@
+.reveal img[src$=".svg"] { /* underly (transparent) .svg images with white background or invert color*/
+    /*background: white; */
+    filter: invert(100%);
+  }
+
+img.white-background {
+    background: white;
+    filter: none !important; 
+  }
+
+iframe {
+  background-color: white;
+}
+
+.reveal {
+  font-size: 30px;
+}
+
