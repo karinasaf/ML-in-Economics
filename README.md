@@ -214,7 +214,7 @@ Linear Algebra, calculus, probability theory and statistics, as well as programm
 # Classes and Problem Sets 
 
 Classes are meant to discuss problem sets and questions arising from the lectures as well as (towards the end of the term) the research projects. 
-Problem sets are to be submitted in groups of 4 students (of varying configuration) on Github Classroom.
+Problem sets are to be submitted in groups of up to 2 students (solo or one partner) on Github Classroom.
 
 
 # Assessment
