@@ -81,34 +81,36 @@ Linear Algebra, calculus, probability theory and statistics, as well as programm
 
 # Contents and Schedule
 
-### Introduction and Foundations - Week 1 (24 January 2026)
+## Part 1: Supervised Machine Learning
+
+### Fundamentals and Linear Regression - Week 1 (24 January 2026)
 
 -   A brief overview of AI, ML, and Deep Learning [@prince2023, Chapter 1]
+-   Linear Regression: Minimizing mean-squared error using matrix notation [@prince2023, Chapter 2]
+  -   sklearn
 -   Probability and information theory fundamentals [@prince2023, Appendix C]
 
 
-## Part 1: Supervised Machine Learning
+### Model Fitting and Optimization - Week 2 (31 January 2026)
 
-### Prediction and Linear Regression - Week 2 (31 January 2026)
-
--   Linear Regression: Minimizing mean-squared error using matrix notation [@prince2023, Chapter 2]
 -   Optimization: Gradient descent, stochastic gradient descent, Adam optimizer [@prince2023, Chapter 6]
+-   Introducing PyTorch 
 -   Model Evaluation: Bias-variance tradeoff and overfitting, training/test set and cross-validation, double descent [@prince2023, Chapter 8]
--   Prediction vs. inference: causal ML topics (e.g., DML, causal forests) are covered in D300 
--   sklearn
--   PyTorch
--   Introduction to Research Project  
--   Economic application: house price prediction, earnings forecasts, etc.
+-   Multinomial Logit and Discrete Choice 
+-   Loss functions [@prince2023, Chapter 5]
+-   CART (Classification and Regression Trees) and ensemble methods for tabular data: bagging (random forests) and gradient boosting (XGBoost)
+-   Economic applications: 
+  - Regression: house price prediction, earnings forecasts, etc.
+  - Classification: discrete choice, credit/default risk, etc.
 
 
 ### Classification and Logistic Regression - Week 3 (7 February 2026)
 
--   Multinomial Logit and Discrete Choice 
--   Loss functions [@prince2023, Chapter 5]
 -   Regularization: Explicit and implicit regularization, dropout, transfer learning [@prince2023, Chapter 9]
--   CART (Classification and Regression Trees) and ensemble methods for tabular data: bagging (random forests) and gradient boosting (XGBoost)
 -   Model interpretability: Shapley values and SHAP for feature attribution
--   Economic application: discrete choice, credit/default risk
+-   Prediction vs. inference: causal ML topics (e.g., DML, causal forests) are covered in D300 
+-   Introduction to Research Project  
+
 
 <!--
 #### Topics Not Currently Covered
