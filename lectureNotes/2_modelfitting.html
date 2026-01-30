@@ -340,7 +340,7 @@ v_{t+1} &amp;\leftarrow \gamma v_t + (1-\gamma) \left(\sum_{i\in B_t} \nabla_{\p
 </section>
 <section id="setup" class="slide level2">
 <h2>Setup</h2>
-<div id="d623412a" class="cell" data-execution_count="1">
+<div id="9e077cea" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="im">import</span> torch</span>
 <span id="cb1-2"><a href=""></a>torch.manual_seed(<span class="dv">42</span>)  <span class="co"># for reproducibility (same results across runs)</span></span>
 <span id="cb1-3"><a href=""></a><span class="co"># Choose where to run: MPS (Apple Silicon), CUDA (NVIDIA GPU), or CPU.</span></span>
@@ -359,7 +359,7 @@ v_{t+1} &amp;\leftarrow \gamma v_t + (1-\gamma) \left(\sum_{i\in B_t} \nabla_{\p
 </section>
 <section id="tensors" class="slide level2">
 <h2>Tensors</h2>
-<div id="c7234c14" class="cell" data-execution_count="2">
+<div id="135382f0" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a><span class="im">from</span> sklearn <span class="im">import</span> datasets <span class="im">as</span> sk_datasets</span>
 <span id="cb2-2"><a href=""></a>X, y <span class="op">=</span> sk_datasets.load_diabetes(return_X_y<span class="op">=</span><span class="va">True</span>, as_frame<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb2-3"><a href=""></a>X <span class="op">=</span> X.iloc[<span class="op">-</span><span class="dv">200</span>:]</span>
@@ -377,7 +377,7 @@ cpu</code></pre>
 </section>
 <section id="linear-regression-closed-form-solution" class="slide level2">
 <h2>Linear Regression: Closed-form Solution</h2>
-<div id="d59eb8f9" class="cell" data-execution_count="3">
+<div id="cf67528d" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a>X_with_intercept <span class="op">=</span> torch.cat([torch.ones(X_train.shape[<span class="dv">0</span>], <span class="dv">1</span>, dtype<span class="op">=</span>X_train.dtype), X_train], dim<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb4-2"><a href=""></a>solution <span class="op">=</span> torch.linalg.lstsq(X_with_intercept, y_train.unsqueeze(<span class="dv">1</span>)) <span class="co"># lstsq expects RHS shape (n, 1) for single output</span></span>
 <span id="cb4-3"><a href=""></a>coefficients <span class="op">=</span> solution.solution.flatten()   <span class="co"># length 11: intercept, then 10 feature coefs</span></span>
@@ -391,7 +391,7 @@ Two coefficients (e.g. bmi, bp): 546.1898803710938 408.4148864746094</code></pre
 </section>
 <section id="linear-regression-numerical-solution" class="slide level2">
 <h2>Linear Regression: Numerical Solution</h2>
-<div id="231d0997" class="cell" data-execution_count="4">
+<div id="19be8eb7" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a><span class="im">from</span> torch <span class="im">import</span> nn</span>
 <span id="cb6-2"><a href=""></a><span class="im">import</span> torch.optim <span class="im">as</span> optim</span>
 <span id="cb6-3"><a href=""></a></span>
@@ -411,19 +411,19 @@ Two coefficients (e.g. bmi, bp): 546.1898803710938 408.4148864746094</code></pre
 <span id="cb6-17"><a href=""></a>criterion <span class="op">=</span> nn.MSELoss() </span>
 <span id="cb6-18"><a href=""></a>optimizer <span class="op">=</span> optim.Adam(model.parameters(), lr<span class="op">=</span><span class="fl">0.01</span>)</span>
 <span id="cb6-19"><a href=""></a></span>
-<span id="cb6-20"><a href=""></a><span class="co"># Training loop</span></span>
-<span id="cb6-21"><a href=""></a>epochs <span class="op">=</span> <span class="dv">15000</span></span>
+<span id="cb6-20"><a href=""></a><span class="co"># Training loop (enough epochs to approach OLS solution)</span></span>
+<span id="cb6-21"><a href=""></a>epochs <span class="op">=</span> <span class="dv">50000</span></span>
 <span id="cb6-22"><a href=""></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(epochs): <span class="co"># one epoch = one pass over the entire training set</span></span>
 <span id="cb6-23"><a href=""></a>    <span class="co"># FORWARD PASS: compute predictions and loss.</span></span>
 <span id="cb6-24"><a href=""></a>    outputs <span class="op">=</span> model(X_train) <span class="co"># calls LinearRegressionModel.forward(x)</span></span>
-<span id="cb6-25"><a href=""></a>    loss <span class="op">=</span> criterion(outputs, y_train)</span>
+<span id="cb6-25"><a href=""></a>    loss <span class="op">=</span> criterion(outputs, y_train.unsqueeze(<span class="dv">1</span>))  <span class="co"># target shape (n, 1) to match outputs</span></span>
 <span id="cb6-26"><a href=""></a></span>
 <span id="cb6-27"><a href=""></a>    <span class="co"># BACKWARD PASS: compute gradients, then update parameters.</span></span>
 <span id="cb6-28"><a href=""></a>    optimizer.zero_grad()  <span class="co"># clear gradients before each backward (otw. they accumulate)</span></span>
 <span id="cb6-29"><a href=""></a>    loss.backward()        <span class="co"># fill gradients for all parameters with requires_grad=True</span></span>
 <span id="cb6-30"><a href=""></a>    optimizer.step()       <span class="co"># update parameters using those gradients</span></span>
 <span id="cb6-31"><a href=""></a></span>
-<span id="cb6-32"><a href=""></a>    <span class="cf">if</span> (epoch <span class="op">+</span> <span class="dv">1</span>) <span class="op">%</span> <span class="dv">1000</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb6-32"><a href=""></a>    <span class="cf">if</span> (epoch <span class="op">+</span> <span class="dv">1</span>) <span class="op">%</span> <span class="dv">5000</span> <span class="op">==</span> <span class="dv">0</span>:</span>
 <span id="cb6-33"><a href=""></a>        <span class="bu">print</span>(<span class="ss">f'Epoch [</span><span class="sc">{</span>epoch <span class="op">+</span> <span class="dv">1</span><span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>epochs<span class="sc">}</span><span class="ss">], Loss: </span><span class="sc">{</span>loss<span class="sc">.</span>item()<span class="sc">:.4f}</span><span class="ss">'</span>)</span>
 <span id="cb6-34"><a href=""></a></span>
 <span id="cb6-35"><a href=""></a><span class="co"># Display the model's coefficients</span></span>
@@ -431,30 +431,25 @@ Two coefficients (e.g. bmi, bp): 546.1898803710938 408.4148864746094</code></pre
 <span id="cb6-37"><a href=""></a>    <span class="cf">if</span> param.requires_grad:</span>
 <span id="cb6-38"><a href=""></a>        <span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>param<span class="sc">.</span>detach()<span class="sc">.</span>cpu()<span class="sc">.</span>numpy()<span class="sc">}</span><span class="ss">'</span>) <span class="co"># move to CPU for .numpy() if needed</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Epoch [1000/15000], Loss: 27357.4336
-Epoch [2000/15000], Loss: 24613.3887
-Epoch [3000/15000], Loss: 22117.1367
-Epoch [4000/15000], Loss: 19840.6387
-Epoch [5000/15000], Loss: 17766.4062
-Epoch [6000/15000], Loss: 15882.5566
-Epoch [7000/15000], Loss: 14182.4189
-Epoch [8000/15000], Loss: 12662.3770
-Epoch [9000/15000], Loss: 11319.5400
-Epoch [10000/15000], Loss: 10150.6904
-Epoch [11000/15000], Loss: 9151.8770
-Epoch [12000/15000], Loss: 8318.0879
-Epoch [13000/15000], Loss: 7642.9668
-Epoch [14000/15000], Loss: 7118.9214
-Epoch [15000/15000], Loss: 6736.1968
-linear.weight: [[ 53.320614  21.617142  30.991814  -8.339305  32.23976  -49.35445
-   58.130833  85.714516 -21.07104  -15.731538]]
-linear.bias: [133.2971]</code></pre>
+<pre><code>Epoch [5000/50000], Loss: 16467.6094
+Epoch [10000/50000], Loss: 8020.4341
+Epoch [15000/50000], Loss: 4216.0083
+Epoch [20000/50000], Loss: 3449.6143
+Epoch [25000/50000], Loss: 3194.2490
+Epoch [30000/50000], Loss: 3021.3784
+Epoch [35000/50000], Loss: 2902.3015
+Epoch [40000/50000], Loss: 2827.1619
+Epoch [45000/50000], Loss: 2780.8799
+Epoch [50000/50000], Loss: 2756.5325
+linear.weight: [[  50.884987 -217.22371   471.00696   427.02527   -65.95926    -7.058841
+  -270.20367    44.71524   451.69968   -20.07624 ]]
+linear.bias: [151.89984]</code></pre>
 </div>
 </div>
 </section>
 <section id="datasets" class="slide level2">
 <h2>Datasets</h2>
-<div id="d1e4b58d" class="cell" data-execution_count="5">
+<div id="7e3e076e" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href=""></a><span class="im">from</span> torchvision <span class="im">import</span> datasets</span>
 <span id="cb8-2"><a href=""></a><span class="im">from</span> torchvision.transforms <span class="im">import</span> ToTensor</span>
 <span id="cb8-3"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -481,7 +476,7 @@ Image size: torch.Size([3, 32, 32])</code></pre>
 <img data-src="2_modelfitting_files/figure-revealjs/cell-6-output-2.png" class="r-stretch"></section>
 <section id="data-loader" class="slide level2">
 <h2>Data Loader</h2>
-<div id="4f9f0478" class="cell" data-execution_count="6">
+<div id="b63acbfe" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href=""></a><span class="im">from</span> torch.utils.data <span class="im">import</span> DataLoader</span>
 <span id="cb10-2"><a href=""></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb10-3"><a href=""></a><span class="im">import</span> random</span>
@@ -509,7 +504,7 @@ Image size: torch.Size([3, 32, 32])</code></pre>
 </section>
 <section id="mini-batch-training-loop-one-optimizer-step-per-batch" class="slide level2">
 <h2>Mini-batch training loop (one optimizer step per batch)</h2>
-<div id="9224a30e" class="cell" data-execution_count="7">
+<div id="e1e010e9" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href=""></a><span class="im">from</span> torch.utils.data <span class="im">import</span> TensorDataset, DataLoader</span>
 <span id="cb11-2"><a href=""></a></span>
 <span id="cb11-3"><a href=""></a><span class="co"># Wrap tensors in a Dataset, then DataLoader</span></span>
@@ -531,7 +526,7 @@ Image size: torch.Size([3, 32, 32])</code></pre>
 <span id="cb11-19"><a href=""></a></span>
 <span id="cb11-20"><a href=""></a>        <span class="co"># Forward: predictions and loss for this batch only.</span></span>
 <span id="cb11-21"><a href=""></a>        pred <span class="op">=</span> model_mb(batch_x)</span>
-<span id="cb11-22"><a href=""></a>        loss <span class="op">=</span> criterion(pred, batch_y)</span>
+<span id="cb11-22"><a href=""></a>        loss <span class="op">=</span> criterion(pred, batch_y.unsqueeze(<span class="dv">1</span>))  <span class="co"># target shape (batch_size, 1) to match pred</span></span>
 <span id="cb11-23"><a href=""></a></span>
 <span id="cb11-24"><a href=""></a>        <span class="co"># Backward: compute gradients, then optimizer step (update parameters).</span></span>
 <span id="cb11-25"><a href=""></a>        optimizer_mb.zero_grad()  <span class="co"># clear gradients from previous batch (they accumulate by default)</span></span>
@@ -549,12 +544,12 @@ Image size: torch.Size([3, 32, 32])</code></pre>
 <span id="cb11-37"><a href=""></a>    preds <span class="op">=</span> model_mb(X_train[:<span class="dv">10</span>].to(DEVICE))   <span class="co"># example: predict on first 10 samples</span></span>
 <span id="cb11-38"><a href=""></a><span class="bu">print</span>(<span class="st">"Sample predictions (first 3):"</span>, preds[:<span class="dv">3</span>].detach().cpu().numpy().flatten())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Epoch 100/500, mean loss: 28712.8610
-Epoch 200/500, mean loss: 25738.2932
-Epoch 300/500, mean loss: 23692.2807
-Epoch 400/500, mean loss: 23069.5605
-Epoch 500/500, mean loss: 21981.4710
-Sample predictions (first 3): [28.43089  32.15204  31.124212]</code></pre>
+<pre><code>Epoch 100/500, mean loss: 28557.7874
+Epoch 200/500, mean loss: 25439.1797
+Epoch 300/500, mean loss: 23249.3605
+Epoch 400/500, mean loss: 22399.3983
+Epoch 500/500, mean loss: 21097.8613
+Sample predictions (first 3): [22.177624 29.933098 28.115124]</code></pre>
 </div>
 </div>
 </section></section>
