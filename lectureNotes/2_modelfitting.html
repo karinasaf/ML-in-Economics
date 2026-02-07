@@ -253,6 +253,118 @@ Stefan Bucher
 </div>
 </section>
 <section>
+<section id="classification-discrete-choice" class="title-slide slide level1 center">
+<h1>Classification: Discrete Choice</h1>
+
+</section>
+<section id="classification" class="slide level2">
+<h2>Classification</h2>
+<ul>
+<li class="fragment">Linear regression: continuous outcome (e.g.&nbsp;house price, earnings, etc.)</li>
+<li class="fragment">Classification: discrete outcome (e.g.&nbsp;product choice, default vs no default, employment status)</li>
+</ul>
+</section>
+<section id="discrete-choice" class="slide level2">
+<h2>Discrete Choice</h2>
+<ul>
+<li class="fragment">Outcome: <span class="math inline">\(y_i \in \{1,\ldots,J\}\)</span> (choice among <span class="math inline">\(J\)</span> alternatives), covariates <span class="math inline">\(\mathbf{X}_i\)</span></li>
+<li class="fragment">Goal: model <span class="math inline">\(P(y_i = j | \mathbf{X}_i)\)</span></li>
+</ul>
+</section>
+<section id="random-utility-model-and-multinomial-logit" class="slide level2 scrollable">
+<h2>Random Utility Model and Multinomial Logit</h2>
+<ul>
+<li class="fragment"><strong>Random utility</strong><sup>1</sup>: agent chooses alternative with highest utility</li>
+<li class="fragment"><span class="math inline">\(U_{ij} = \mathbf{X}_i \beta_j + \varepsilon_{ij}\)</span>; choose <span class="math inline">\(j\)</span> iff <span class="math inline">\(U_{ij} &gt; U_{ia}\)</span> for all <span class="math inline">\(a \neq j\)</span></li>
+<li class="fragment">If <span class="math inline">\(\varepsilon_{ij}\)</span> i.i.d. <strong>Gumbel</strong> (extreme value type I), choice probabilities have a closed form (<strong>multinomial logit</strong>, or softmax) <span class="math display">\[P(y_i = j | \mathbf{X}_i) = \frac{\exp(\mathbf{X}_i \beta_j)}{\sum_{a=1}^J \exp(\mathbf{X}_i \beta_a)}\]</span></li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn2"><p>McFadden (1974); Nobel Prize (2000)</p></li></ol></aside></section>
+<section id="regression-vs.-classification" class="slide level2">
+<h2>Regression vs.&nbsp;Classification</h2>
+
+<img data-src="../img/UDL/Chap05/LossDataTypes.svg" class="quarto-figure quarto-figure-center r-stretch"></section></section>
+<section>
+<section id="loss-functions" class="title-slide slide level1 center">
+<h1>Loss Functions</h1>
+<p><span class="citation" data-cites="prince2023">Prince (<a href="#/references" role="doc-biblioref" onclick="">2023, chap. 5</a>)</span></p>
+</section>
+<section id="what-is-a-good-model" class="slide level2">
+<h2>What is a Good Model?</h2>
+<p>Model (distribution) <span class="math inline">\(Q\)</span> that is <em>close</em> to the true distribution <span class="math inline">\(P\)</span> (of which we observe an empirical sample).</p>
+
+<img data-src="../img/UDL/Chap05/LossCrossEntropy.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="cross-entropy-loss-max-llh" class="slide level2">
+<h2>Cross-Entropy Loss (= Max LLH)</h2>
+<p>Minimizing KL div. from model <span class="math inline">\(Q_{\theta}(y|x)\)</span> to empirical <span class="math inline">\(P(y|x)\)</span> <span class="math display">\[\begin{align*}
+\hat{\theta} &amp;= \arg\min_{\theta} D_{KL}[P||Q] \\
+&amp;= \arg\min_{\theta} \int_{-\infty}^{\infty} p(y|x) \log \frac{p(y|x)}{q_{\theta}(y|x)} dy \\
+&amp;= \arg\min_{\theta} - \int_{-\infty}^{\infty} p(y|x) \log q_{\theta}(y|x) dy  \\
+&amp;= \arg\min_{\theta} - \int_{-\infty}^{\infty} \left(\frac{1}{I}\sum_{i=1}^I\delta[y-y_i]\right) \log q_{\theta}(y|x) dy  \\
+&amp;= \arg\min_{\theta} - \sum_{i=1}^I \log q_{\theta}(y_i|x_i)
+\end{align*}\]</span> is equivalent to minimizing the negative log-likelihood <span class="math display">\[\begin{align*}
+\hat{\phi} = \arg\min_{\phi} -\sum_{i=1}^I \log q(y_i|\theta_i=f[x_i, \phi])
+\end{align*}\]</span></p>
+<p>Distribution parametrized by ML model.</p>
+</section>
+<section id="maximizing-log-likelihood" class="slide level2">
+<h2>Maximizing Log-Likelihood</h2>
+<p><span class="math display">\[\begin{align*}
+\hat{\phi} &amp;= \arg\max_{\phi} \prod_{i=1}^I  q(y_i|\theta_i=f[x_i, \phi])\\
+&amp;= \arg\max_{\phi} \log \prod_{i=1}^I  q(y_i|\theta_i=f[x_i, \phi])\\
+&amp;= \arg\min_{\phi} -\sum_{i=1}^I \log q(y_i|\theta_i=f[x_i, \phi])
+\end{align*}\]</span></p>
+</section>
+<section id="lin.-reg.-least-squares-loss" class="slide level2">
+<h2>Lin. Reg.: Least Squares Loss</h2>
+<p>Assuming <span class="math inline">\(y_i|x_i\sim N(f[x_i,\phi],\sigma^2)\)</span></p>
+<p><span class="math display">\[\begin{align*}
+\hat{\phi} &amp;= \arg\min_{\phi} -\sum_{i=1}^I \log q(y_i|\theta_i=f[x_i, \phi]) \\
+&amp;= \arg\min_{\phi} -\sum_{i=1}^I \log \left( \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left( -\frac{(y_i-f[x_i,\phi])^2}{2\sigma^2} \right) \right) \\
+&amp;= \arg\min_{\phi} \sum_{i=1}^I -\log \left( \frac{1}{\sqrt{2\pi\sigma^2}}\right)  +\frac{(y_i-f[x_i,\phi])^2}{2\sigma^2}   \\
+&amp;= \arg\min_{\phi} \sum_{i=1}^I (y_i-f[x_i,\phi])^2
+\end{align*}\]</span></p>
+</section>
+<section id="lin.-reg.-least-squares-loss-1" class="slide level2">
+<h2>Lin. Reg.: Least Squares Loss</h2>
+
+<img data-src="../img/UDL/Chap05/LossNormalRegression.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="heteroscedastic-regression" class="slide level2">
+<h2>Heteroscedastic Regression</h2>
+<p><span class="math display">\[\begin{align*}
+\arg\min_{\phi} -\sum_{i=1}^I \log \left( \frac{1}{\sqrt{2\pi f_2[x_i,\phi]^2}}\exp\left( -\frac{(y_i-f_1[x_i,\phi])^2}{2 f_2[x_i,\phi]^2} \right) \right) \\
+\end{align*}\]</span></p>
+
+<img data-src="../img/UDL/Chap05/LossHeteroscedastic.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="classification-binary-cross-entropy-loss" class="slide level2">
+<h2>Classification: Binary Cross-Entropy Loss</h2>
+<p>Assuming <span class="math inline">\(y_i|x_i\sim Ber(\lambda_i=logit(f[x_i,\phi]))\)</span></p>
+<p><span class="math display">\[\begin{align*}
+\hat{\phi} &amp;= \arg\min_{\phi} -\sum_{i=1}^I \log \left( (1-logit(f[x_i,\phi]))^{1-y_i} logit(f[x_i,\phi])^{y_i} \right) \\
+&amp;= \arg\min_{\phi} \sum_{i=1}^I -(1-y_i)\log \left(1-logit(f[x_i,\phi])\right)  - y_i \log\left(logit(f[x_i,\phi]) \right)   
+\end{align*}\]</span></p>
+</section>
+<section id="multiclass-cross-entropy-loss" class="slide level2 nostretch">
+<h2>Multiclass Cross-Entropy Loss</h2>
+<p>Assuming <span class="math inline">\(q(y_i=k|x_i)=softmax_k(f[x_i,\phi])\)</span></p>
+<p><span class="math display">\[\begin{align*}
+\hat{\phi} &amp;= \arg\min_{\phi} -\sum_{i=1}^I \log \left( softmax_{y_i}(f[x_i,\phi])\right) \\
+&amp;= \arg\min_{\phi} -\sum_{i=1}^I \left( f_{y_i}[x_i,\phi] - \log \left( \sum_{k'=1}^K \exp(f_{k'}[x_i,\phi]) \right) \right)   
+\end{align*}\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../img/UDL/Chap05/LossMultiClassClassification.svg" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</section>
+<section id="multivariate-output" class="slide level2">
+<h2>Multivariate Output</h2>
+<p>Assuming independent dimensions <span class="math inline">\(q(y|f[x,\phi]) = \prod_d q(y_d|f_d[x,\phi])\)</span></p>
+<p><span class="math display">\[\begin{align*}
+\hat{\phi} &amp;= \arg\min_{\phi} -\sum_{i=1}^I \log \left( \prod_d q(y_{i,d}|f_d[x_i,\phi]) \right) \\
+&amp;= \arg\min_{\phi} -\sum_{i=1}^I \sum_d \log \left( q(y_{i,d}|f_d[x_i,\phi]) \right)
+\end{align*}\]</span></p>
+</section></section>
+<section>
 <section id="model-fitting-optimization" class="title-slide slide level1 center">
 <h1>Model Fitting &amp; Optimization</h1>
 <p><span class="math display">\[\begin{align*}
@@ -270,7 +382,7 @@ Stefan Bucher
 <p><img data-src="../img/UDL/Chap06/TrainLRMin.svg" class="quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn2"><p>Cauchy (1847)</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn3"><p>Cauchy (1847)</p></li></ol></aside></section>
 <section id="nonlinear-model" class="slide level2">
 <h2>Nonlinear Model</h2>
 <p>Loss functions generally non-convex, possibly multiple local minima.</p>
@@ -297,7 +409,7 @@ Stefan Bucher
 </figure>
 </div>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn3"><p>Robbins &amp; Monro (1951)</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn4"><p>Robbins &amp; Monro (1951)</p></li></ol></aside></section>
 <section id="nesterov-accelerated-momentum-4" class="slide level2 scrollable">
 <h2>Nesterov Accelerated Momentum <sup>1</sup></h2>
 <p><span class="math display">\[\begin{align*}
@@ -314,7 +426,7 @@ m_{t+1} &amp;\leftarrow \beta m_t + (1-\beta) \sum_{i\in B_t} \nabla_{\phi} l_i(
 <p><img data-src="../img/UDL/Chap06/TrainNesterov.svg" class="quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn4"><p>Nesterov (1983)</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn5"><p>Nesterov (1983)</p></li></ol></aside></section>
 <section id="adaptive-moment-estimation-adam-5" class="slide level2 scrollable">
 <h2>Adaptive Moment Estimation (Adam) <sup>1</sup></h2>
 <p>Normalizes the gradient while relying on momentum to avoid convergence issues.</p>
@@ -323,7 +435,7 @@ m_{t+1} &amp;\leftarrow \beta m_t + (1-\beta) \sum_{i\in B_t} \nabla_{\phi} l_i(
 v_{t+1} &amp;\leftarrow \gamma v_t + (1-\gamma) \left(\sum_{i\in B_t} \nabla_{\phi} l_i(\phi_t; x_i, y_i)\right)^2 \\
 \phi_{t+1} &amp;\leftarrow \phi_t - \alpha  \frac{\frac{m_{t+1}}{1-\beta^{t+1}}}{\sqrt{\frac{v_{t+1}}{1-\gamma^{t+1}}}+\epsilon}
 \end{align*}\]</span></p>
-<aside><ol class="aside-footnotes"><li id="fn5"><p>Kingma &amp; Ba (2015)</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn6"><p>Kingma &amp; Ba (2015)</p></li></ol></aside></section>
 
 <section id="adaptive-moment-estimation-adam-1" class="slide level2">
 <h2>Adaptive Moment Estimation (Adam)</h2>
@@ -340,7 +452,7 @@ v_{t+1} &amp;\leftarrow \gamma v_t + (1-\gamma) \left(\sum_{i\in B_t} \nabla_{\p
 </section>
 <section id="setup" class="slide level2">
 <h2>Setup</h2>
-<div id="196f5a71" class="cell" data-execution_count="1">
+<div id="3f4588a0" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="im">import</span> torch</span>
 <span id="cb1-2"><a href=""></a>torch.manual_seed(<span class="dv">42</span>)  <span class="co"># for reproducibility (same results across runs)</span></span>
 <span id="cb1-3"><a href=""></a><span class="co"># Choose where to run: MPS (Apple Silicon), CUDA (NVIDIA GPU), or CPU.</span></span>
@@ -359,7 +471,7 @@ v_{t+1} &amp;\leftarrow \gamma v_t + (1-\gamma) \left(\sum_{i\in B_t} \nabla_{\p
 </section>
 <section id="tensors" class="slide level2">
 <h2>Tensors</h2>
-<div id="e79235b7" class="cell" data-execution_count="2">
+<div id="d3b18351" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a><span class="im">from</span> sklearn <span class="im">import</span> datasets <span class="im">as</span> sk_datasets</span>
 <span id="cb2-2"><a href=""></a>X, y <span class="op">=</span> sk_datasets.load_diabetes(return_X_y<span class="op">=</span><span class="va">True</span>, as_frame<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb2-3"><a href=""></a>X <span class="op">=</span> X.iloc[<span class="op">-</span><span class="dv">200</span>:]</span>
@@ -377,7 +489,7 @@ cpu</code></pre>
 </section>
 <section id="linear-regression-closed-form-solution" class="slide level2">
 <h2>Linear Regression: Closed-form Solution</h2>
-<div id="91329386" class="cell" data-execution_count="3">
+<div id="b10a3c1a" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a>X_with_intercept <span class="op">=</span> torch.cat([torch.ones(X_train.shape[<span class="dv">0</span>], <span class="dv">1</span>, dtype<span class="op">=</span>X_train.dtype), X_train], dim<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb4-2"><a href=""></a>solution <span class="op">=</span> torch.linalg.lstsq(X_with_intercept, y_train.unsqueeze(<span class="dv">1</span>)) <span class="co"># lstsq expects RHS shape (n, 1) for single output</span></span>
 <span id="cb4-3"><a href=""></a>coefficients <span class="op">=</span> solution.solution.flatten()   <span class="co"># length 11: intercept, then 10 feature coefs</span></span>
@@ -391,7 +503,7 @@ Two coefficients (e.g. bmi, bp): 546.1898803710938 408.4148864746094</code></pre
 </section>
 <section id="linear-regression-numerical-solution" class="slide level2">
 <h2>Linear Regression: Numerical Solution</h2>
-<div id="cdd3f671" class="cell" data-execution_count="4">
+<div id="65903bc9" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a><span class="im">from</span> torch <span class="im">import</span> nn</span>
 <span id="cb6-2"><a href=""></a><span class="im">import</span> torch.optim <span class="im">as</span> optim</span>
 <span id="cb6-3"><a href=""></a></span>
@@ -411,7 +523,7 @@ Two coefficients (e.g. bmi, bp): 546.1898803710938 408.4148864746094</code></pre
 <span id="cb6-17"><a href=""></a>criterion <span class="op">=</span> nn.MSELoss() </span>
 <span id="cb6-18"><a href=""></a>optimizer <span class="op">=</span> optim.Adam(model.parameters(), lr<span class="op">=</span><span class="fl">0.01</span>)</span>
 <span id="cb6-19"><a href=""></a></span>
-<span id="cb6-20"><a href=""></a><span class="co"># Training loop (enough epochs to approach OLS solution)</span></span>
+<span id="cb6-20"><a href=""></a><span class="co"># Training loop </span></span>
 <span id="cb6-21"><a href=""></a>epochs <span class="op">=</span> <span class="dv">50000</span></span>
 <span id="cb6-22"><a href=""></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(epochs): <span class="co"># one epoch = one pass over the entire training set</span></span>
 <span id="cb6-23"><a href=""></a>    <span class="co"># FORWARD PASS: compute predictions and loss.</span></span>
@@ -449,7 +561,7 @@ linear.bias: [151.89984]</code></pre>
 </section>
 <section id="datasets" class="slide level2">
 <h2>Datasets</h2>
-<div id="a929d4a8" class="cell" data-execution_count="5">
+<div id="2bbc73eb" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href=""></a><span class="im">from</span> torchvision <span class="im">import</span> datasets</span>
 <span id="cb8-2"><a href=""></a><span class="im">from</span> torchvision.transforms <span class="im">import</span> ToTensor</span>
 <span id="cb8-3"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -476,7 +588,7 @@ Image size: torch.Size([3, 32, 32])</code></pre>
 <img data-src="2_modelfitting_files/figure-revealjs/cell-6-output-2.png" class="r-stretch"></section>
 <section id="data-loader" class="slide level2">
 <h2>Data Loader</h2>
-<div id="a28c8b02" class="cell" data-execution_count="6">
+<div id="f8399c07" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href=""></a><span class="im">from</span> torch.utils.data <span class="im">import</span> DataLoader</span>
 <span id="cb10-2"><a href=""></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb10-3"><a href=""></a><span class="im">import</span> random</span>
@@ -504,7 +616,7 @@ Image size: torch.Size([3, 32, 32])</code></pre>
 </section>
 <section id="mini-batch-training-loop-one-optimizer-step-per-batch" class="slide level2">
 <h2>Mini-batch training loop (one optimizer step per batch)</h2>
-<div id="f6f38943" class="cell" data-execution_count="7">
+<div id="b4517736" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href=""></a><span class="im">from</span> torch.utils.data <span class="im">import</span> TensorDataset, DataLoader</span>
 <span id="cb11-2"><a href=""></a></span>
 <span id="cb11-3"><a href=""></a><span class="co"># Wrap tensors in a Dataset, then DataLoader</span></span>
@@ -554,8 +666,8 @@ Sample predictions (first 3): [22.177624 29.933098 28.115124]</code></pre>
 </div>
 </section></section>
 <section>
-<section id="measuring-performance" class="title-slide slide level1 center">
-<h1>Measuring Performance</h1>
+<section id="model-evaluation" class="title-slide slide level1 center">
+<h1>Model Evaluation</h1>
 <p><span class="citation" data-cites="prince2023">Prince (<a href="#/references" role="doc-biblioref" onclick="">2023, chap. 8</a>)</span></p>
 </section>
 <section id="training-and-test-error" class="slide level2">
@@ -615,118 +727,6 @@ L[x] &amp;= \left(f[x,\phi] - \mathbb{E}[y|x] + \mathbb{E}[y|x] - y[x] \right)^2
 <li class="fragment">Choose hyperparameters using validation set</li>
 <li class="fragment">Evaluate final model on test set</li>
 </ul>
-</section></section>
-<section>
-<section id="classification-discrete-choice" class="title-slide slide level1 center">
-<h1>Classification: Discrete Choice</h1>
-
-</section>
-<section id="classification" class="slide level2">
-<h2>Classification</h2>
-<ul>
-<li class="fragment">Linear regression: continuous outcome (e.g.&nbsp;house price, earnings, etc.)</li>
-<li class="fragment">Classification: discrete outcome (e.g.&nbsp;product choice, default vs no default, employment status)</li>
-</ul>
-</section>
-<section id="discrete-choice" class="slide level2">
-<h2>Discrete Choice</h2>
-<ul>
-<li class="fragment">Outcome: <span class="math inline">\(y_i \in \{1,\ldots,J\}\)</span> (choice among <span class="math inline">\(J\)</span> alternatives), covariates <span class="math inline">\(\mathbf{X}_i\)</span></li>
-<li class="fragment">Goal: model <span class="math inline">\(P(y_i = j | \mathbf{X}_i)\)</span></li>
-</ul>
-</section>
-<section id="random-utility-model-and-multinomial-logit" class="slide level2 scrollable">
-<h2>Random Utility Model and Multinomial Logit</h2>
-<ul>
-<li class="fragment"><strong>Random utility</strong><sup>1</sup>: agent chooses alternative with highest utility</li>
-<li class="fragment"><span class="math inline">\(U_{ij} = \mathbf{X}_i \beta_j + \varepsilon_{ij}\)</span>; choose <span class="math inline">\(j\)</span> iff <span class="math inline">\(U_{ij} &gt; U_{ia}\)</span> for all <span class="math inline">\(a \neq j\)</span></li>
-<li class="fragment">If <span class="math inline">\(\varepsilon_{ij}\)</span> i.i.d. <strong>Gumbel</strong> (extreme value type I), choice probabilities have a closed form (<strong>multinomial logit</strong>, or softmax) <span class="math display">\[P(y_i = j | \mathbf{X}_i) = \frac{\exp(\mathbf{X}_i \beta_j)}{\sum_{a=1}^J \exp(\mathbf{X}_i \beta_a)}\]</span></li>
-</ul>
-<aside><ol class="aside-footnotes"><li id="fn6"><p>McFadden (1974); Nobel Prize (2000)</p></li></ol></aside></section>
-<section id="regression-vs.-classification" class="slide level2">
-<h2>Regression vs.&nbsp;Classification</h2>
-
-<img data-src="../img/UDL/Chap05/LossDataTypes.svg" class="quarto-figure quarto-figure-center r-stretch"></section></section>
-<section>
-<section id="loss-functions" class="title-slide slide level1 center">
-<h1>Loss Functions</h1>
-<p><span class="citation" data-cites="prince2023">Prince (<a href="#/references" role="doc-biblioref" onclick="">2023, chap. 5</a>)</span></p>
-</section>
-<section id="what-is-a-good-model" class="slide level2">
-<h2>What is a Good Model?</h2>
-<p>Model (distribution) <span class="math inline">\(Q\)</span> that is <em>close</em> to the true distribution <span class="math inline">\(P\)</span> (of which we observe an empirical sample).</p>
-
-<img data-src="../img/UDL/Chap05/LossCrossEntropy.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
-<section id="cross-entropy-loss-max-llh" class="slide level2">
-<h2>Cross-Entropy Loss (= Max LLH)</h2>
-<p>Minimizing KL div. from model <span class="math inline">\(Q_{\theta}(y|x)\)</span> to empirical <span class="math inline">\(P(y|x)\)</span> <span class="math display">\[\begin{align*}
-\hat{\theta} &amp;= \arg\min_{\theta} D_{KL}[P||Q] \\
-&amp;= \arg\min_{\theta} \int_{-\infty}^{\infty} p(y|x) \log \frac{p(y|x)}{q_{\theta}(y|x)} dy \\
-&amp;= \arg\min_{\theta} - \int_{-\infty}^{\infty} p(y|x) \log q_{\theta}(y|x) dy  \\
-&amp;= \arg\min_{\theta} - \int_{-\infty}^{\infty} \left(\frac{1}{I}\sum_{i=1}^I\delta[y-y_i]\right) \log q_{\theta}(y|x) dy  \\
-&amp;= \arg\min_{\theta} - \sum_{i=1}^I \log q_{\theta}(y_i|x_i)
-\end{align*}\]</span> is equivalent to minimizing the negative log-likelihood <span class="math display">\[\begin{align*}
-\hat{\phi} = \arg\min_{\phi} -\sum_{i=1}^I \log q(y_i|\theta_i=f[x_i, \phi])
-\end{align*}\]</span></p>
-<p>Distribution parametrized by ML model.</p>
-</section>
-<section id="maximizing-log-likelihood" class="slide level2">
-<h2>Maximizing Log-Likelihood</h2>
-<p><span class="math display">\[\begin{align*}
-\hat{\phi} &amp;= \arg\max_{\phi} \prod_{i=1}^I  q(y_i|\theta_i=f[x_i, \phi])\\
-&amp;= \arg\max_{\phi} \log \prod_{i=1}^I  q(y_i|\theta_i=f[x_i, \phi])\\
-&amp;= \arg\min_{\phi} -\sum_{i=1}^I \log q(y_i|\theta_i=f[x_i, \phi])
-\end{align*}\]</span></p>
-</section>
-<section id="lin.-reg.-least-squares-loss" class="slide level2">
-<h2>Lin. Reg.: Least Squares Loss</h2>
-<p>Assuming <span class="math inline">\(y_i|x_i\sim N(f[x_i,\phi],\sigma^2)\)</span></p>
-<p><span class="math display">\[\begin{align*}
-\hat{\phi} &amp;= \arg\min_{\phi} -\sum_{i=1}^I \log q(y_i|\theta_i=f[x_i, \phi]) \\
-&amp;= \arg\min_{\phi} -\sum_{i=1}^I \log \left( \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left( -\frac{(y_i-f[x_i,\phi])^2}{2\sigma^2} \right) \right) \\
-&amp;= \arg\min_{\phi} \sum_{i=1}^I -\log \left( \frac{1}{\sqrt{2\pi\sigma^2}}\right)  +\frac{(y_i-f[x_i,\phi])^2}{2\sigma^2}   \\
-&amp;= \arg\min_{\phi} \sum_{i=1}^I (y_i-f[x_i,\phi])^2
-\end{align*}\]</span></p>
-</section>
-<section id="lin.-reg.-least-squares-loss-1" class="slide level2">
-<h2>Lin. Reg.: Least Squares Loss</h2>
-
-<img data-src="../img/UDL/Chap05/LossNormalRegression.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
-<section id="heteroscedastic-regression" class="slide level2">
-<h2>Heteroscedastic Regression</h2>
-<p><span class="math display">\[\begin{align*}
-\arg\min_{\phi} -\sum_{i=1}^I \log \left( \frac{1}{\sqrt{2\pi f_2[x_i,\phi]^2}}\exp\left( -\frac{(y_i-f_1[x_i,\phi])^2}{2 f_2[x_i,\phi]^2} \right) \right) \\
-\end{align*}\]</span></p>
-
-<img data-src="../img/UDL/Chap05/LossHeteroscedastic.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
-<section id="binary-classification-binary-cross-entropy-loss" class="slide level2">
-<h2>Binary Classification: Binary Cross-Entropy Loss</h2>
-<p>Assuming <span class="math inline">\(y_i|x_i\sim Ber(\lambda_i=logit(f[x_i,\phi]))\)</span></p>
-<p><span class="math display">\[\begin{align*}
-\hat{\phi} &amp;= \arg\min_{\phi} -\sum_{i=1}^I \log \left( (1-logit(f[x_i,\phi]))^{1-y_i} logit(f[x_i,\phi])^{y_i} \right) \\
-&amp;= \arg\min_{\phi} \sum_{i=1}^I -(1-y_i)\log \left(1-logit(f[x_i,\phi])\right)  - y_i \log\left(logit(f[x_i,\phi]) \right)   
-\end{align*}\]</span></p>
-</section>
-<section id="multiclass-classification-multiclass-cross-entropy-loss" class="slide level2 nostretch">
-<h2>Multiclass Classification: Multiclass Cross-Entropy Loss</h2>
-<p>Assuming <span class="math inline">\(q(y_i=k|x_i)=softmax_k(f[x_i,\phi])\)</span></p>
-<p><span class="math display">\[\begin{align*}
-\hat{\phi} &amp;= \arg\min_{\phi} -\sum_{i=1}^I \log \left( softmax_{y_i}(f[x_i,\phi])\right) \\
-&amp;= \arg\min_{\phi} -\sum_{i=1}^I \left( f_{y_i}[x_i,\phi] - \log \left( \sum_{k'=1}^K \exp(f_{k'}[x_i,\phi]) \right) \right)   
-\end{align*}\]</span></p>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="../img/UDL/Chap05/LossMultiClassClassification.svg" class="quarto-figure quarto-figure-center"></p>
-</figure>
-</div>
-</section>
-<section id="multivariate-output" class="slide level2">
-<h2>Multivariate Output</h2>
-<p>Assuming independent dimensions <span class="math inline">\(q(y|f[x,\phi]) = \prod_d q(y_d|f_d[x,\phi])\)</span></p>
-<p><span class="math display">\[\begin{align*}
-\hat{\phi} &amp;= \arg\min_{\phi} -\sum_{i=1}^I \log \left( \prod_d q(y_{i,d}|f_d[x_i,\phi]) \right) \\
-&amp;= \arg\min_{\phi} -\sum_{i=1}^I \sum_d \log \left( q(y_{i,d}|f_d[x_i,\phi]) \right)
-\end{align*}\]</span></p>
 </section>
 <section id="references" class="slide level2 smaller scrollable">
 <h2>References</h2>
