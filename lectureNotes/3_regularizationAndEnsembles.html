@@ -180,6 +180,7 @@ Stefan Bucher
 <li class="fragment"><strong>Nonparametric methods</strong> — Classification and Regression Trees (CART).</li>
 <li class="fragment"><strong>Ensemble methods</strong> — Bagging, random forests, boosting, XGBoost.</li>
 <li class="fragment"><strong>Interpretability</strong> — Shapley values and SHAP for feature attribution.</li>
+<li class="fragment"><strong>Prediction vs.&nbsp;inference</strong></li>
 </ol>
 </section>
 <section>
@@ -219,50 +220,38 @@ g[\phi] = \sum_j |\phi_j|
 </section>
 <section id="implicit-regularization" class="slide level2">
 <h2>Implicit Regularization</h2>
-<p>Discrete stochastic gradient descent on <span class="math inline">\(L\)</span> arrives at same place as continuous descent <span class="math inline">\(\frac{d\phi}{dt} = - \frac{\partial\tilde{L}}{\partial\phi}\)</span> on <span class="math display">\[\begin{align*}
+<p>Discrete stochastic gradient descent on <span class="math inline">\(L\)</span> arrives at same place as continuous descent <span class="math inline">\(\frac{d\phi}{dt} = - \frac{\partial\tilde{L}}{\partial\phi}\)</span> on</p>
+<div style="margin: -1.5em 0;">
+<p><span class="math display">\[\begin{align*}
 \tilde{L}[\phi] = L[\phi] + \frac{\alpha}{4} ||\frac{\partial L}{\partial\phi}||^2 + \frac{\alpha}{4B}\sum_{b=1}^B || \frac{\partial L_b}{\partial\phi} - \frac{\partial L}{\partial\phi} ||^2
-\end{align*}\]</span> so is naturally biased</p>
+\end{align*}\]</span></p>
+</div>
+<p>so is naturally biased</p>
 <ul>
 <li class="fragment">away from steep gradients</li>
 <li class="fragment">to stable gradients (low variance across batches), suggesting that “all data fits well” and promising better generalization</li>
 </ul>
 
-<img data-src="../img/UDL/Chap09/RegImplicit1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<img data-src="../img/UDL/Chap09/RegImplicit1.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
 <section id="performance-heuristics" class="slide level2">
 <h2>Performance Heuristics</h2>
 <ul>
-<li class="fragment">Early stopping (to avoid overfitting)</li>
-<li class="fragment">Applying noise (or adversarial) during training (to inputs, weights, or labels) for increased robustness</li>
-<li class="fragment">Bayesian inference <span class="math inline">\(P(\phi|\{x_i,y_i\}) = \propto \prod_{i=1}^I q(y_i|x_i,\phi)P(\phi)\)</span> (often not practical)</li>
-<li class="fragment">Normalization</li>
+<li class="fragment"><strong>Early stopping:</strong> halt training when validation loss starts rising; avoids overfitting by limiting effective model complexity w/o changing architecture.</li>
+<li class="fragment"><strong>Noise injection:</strong> add noise to inputs, weights, or labels during training; acts as a smoothing penalty and improves robustness
+<ul>
+<li class="fragment">adversarial training is a targeted variant</li>
+</ul></li>
+<li class="fragment"><strong>Normalization</strong> (batch, layer, group): re-center and re-scale activations within each layer; stabilizes and accelerates training by reducing internal covariate shift</li>
+<li class="fragment"><strong>Bayesian inference:</strong> instead of point estimates of the parameters, consider posterior <span class="math inline">\(P(\phi|\{x_i,y_i\}) \propto \prod_{i=1}^I q(y_i|x_i,\phi)P(\phi)\)</span>
+<ul>
+<li class="fragment">principled but often intractable</li>
+</ul></li>
 </ul>
 </section>
-<section id="ensemble-methods" class="slide level2">
-<h2>Ensemble Methods</h2>
-<p>Average predictions of multiple models, e.g.</p>
-<ul>
-<li class="fragment">different initializations</li>
-<li class="fragment">Bagging (bootstrap aggregating, i.e.&nbsp;resampling training data)</li>
-</ul>
-<div class="fragment">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="../img/UDL/Chap09/RegEnsemble.svg" class="quarto-figure quarto-figure-center"></p>
-</figure>
-</div>
-<ul>
-<li class="fragment"><p>Boosting (iteratively improve weak learners)</p></li>
-<li class="fragment"><p>We will discuss these through the lens of the subsequent section on trees.</p></li>
-</ul>
-</div>
-</section>
-<section id="dropout" class="slide level2">
-<h2>Dropout</h2>
-<p>Clamping subset of hidden units to zero.</p>
-
-<img data-src="../img/UDL/Chap09/RegDropoutNetwork.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
-<section id="transfer-multi-task-self-supervised-learning" class="slide level2">
-<h2>Transfer, Multi-task &amp; Self-supervised Learning</h2>
+<section id="transfer-self-supervised-learning" class="slide level2">
+<h2>Transfer &amp; Self-supervised Learning</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
 <ul>
 <li class="fragment">Transfer learning (pretrain on related training data)
 <ul>
@@ -276,76 +265,135 @@ g[\phi] = \sum_j |\phi_j|
 <li class="fragment">contrastive (compare pairs of examples for relatedness)</li>
 </ul></li>
 </ul>
-<div class="fragment">
+</div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="../img/UDL/Chap09/RegTransferMulti.svg" class="quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
-</div>
+</div></div>
 </section>
 <section id="data-augmentation" class="slide level2">
 <h2>Data Augmentation</h2>
 
 <img data-src="../img/UDL/Chap09/RegAugment.svg" class="white-background quarto-figure quarto-figure-center r-stretch"></section>
+<section id="dropout" class="slide level2">
+<h2>Dropout</h2>
+<p>Clamping subset of hidden units to zero.</p>
+
+<img data-src="../img/UDL/Chap09/RegDropoutNetwork.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="regularization-overview" class="slide level2">
 <h2>Regularization Overview</h2>
 
 <img data-src="../img/UDL/Chap09/RegMethods.svg" class="quarto-figure quarto-figure-center r-stretch"></section></section>
 <section>
-<section id="nonparametric-methods-cart" class="title-slide slide level1 center">
-<h1>Nonparametric methods: CART</h1>
-<p><span class="citation" data-cites="murphy2022">Murphy (<a href="" role="doc-biblioref" onclick="return false;">2022, chap. 18.1</a>)</span></p>
-</section>
-<section id="cart-classification-and-regression-trees" class="slide level2">
-<h2>CART: Classification and Regression Trees</h2>
-<ul>
-<li class="fragment"><strong>Recursive partitioning:</strong> choose split (feature + threshold) to minimize impurity</li>
-<li class="fragment">regression: MSE</li>
-<li class="fragment">classification: entropy or Gini</li>
-<li class="fragment"><strong>Axis-aligned splits</strong>: input space partitioned into <strong>regions</strong> (axis-aligned boxes); prediction is <strong>constant</strong> in each region (one value per leaf).</li>
-</ul>
-<div class="fragment">
-<p>Outlook: Neural networks also partition the input space into regions, but with <strong>learned</strong> (non–axis-aligned) boundaries and piecewise linear behavior.</p>
-</div>
-</section></section>
-<section>
-<section id="ensemble-methods-1" class="title-slide slide level1 center">
+<section id="ensemble-methods" class="title-slide slide level1 center">
 <h1>Ensemble methods</h1>
 <p><span class="citation" data-cites="murphy2022">Murphy (<a href="" role="doc-biblioref" onclick="return false;">2022, chaps. 18.2–18.5</a>)</span></p>
-<p>Explained here through trees; the ideas (averaging, sequential correction) apply to other base learners too.</p>
+<p>Explained through decision trees; ideas apply more generally.</p>
 </section>
-<section id="the-challenge-with-trees" class="slide level2">
-<h2>The Challenge with Trees</h2>
+<section id="ensemble-methods-1" class="slide level2">
+<h2>Ensemble Methods</h2>
+<p>Average predictions of multiple models, e.g.</p>
 <ul>
-<li class="fragment">interpretable, but high variance (sensitive to data).</li>
+<li class="fragment">different initializations</li>
+<li class="fragment">Bagging (bootstrap aggregating)
+<ul>
+<li class="fragment">i.e.&nbsp;resampling training data</li>
+</ul></li>
 </ul>
+
+<img data-src="../img/UDL/Chap09/RegEnsemble.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="cart-classification-and-regression-trees" class="slide level2">
+<h2>CART: Classification and Regression Trees</h2>
+<p>Cf. D300 &amp; <span class="citation" data-cites="murphy2022">Murphy (<a href="" role="doc-biblioref" onclick="return false;">2022, chap. 18.1</a>)</span>.</p>
+<ul>
+<li class="fragment">Recursive axis-parallel splits: choose feature + threshold to minimize impurity
+<ul>
+<li class="fragment">regression: MSE</li>
+<li class="fragment">classification: entropy or Gini index</li>
+</ul></li>
+<li class="fragment">Partitions input space into (axis-aligned) regions of constant prediction.</li>
+</ul>
+<div class="fragment">
+<div id="2486a6fc" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="3_regularizationAndEnsembles_files/figure-revealjs/cell-2-output-1.png" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Adapted from <span class="citation" data-cites="murphy2022">Murphy (<a href="" role="doc-biblioref" onclick="return false;">2022, fig. 18.1</a>)</span>.</p>
+</div>
 </section>
-<section id="bagging" class="slide level2">
-<h2>Bagging</h2>
+<section id="bagging-bootstrap-aggregating" class="slide level2">
+<h2>Bagging: Bootstrap aggregating</h2>
 <ul>
-<li class="fragment"><strong>Bootstrap aggregating:</strong> fit many models (e.g.&nbsp;trees) on bootstrap samples of the training data; average their predictions.</li>
-<li class="fragment"><strong>Variance reduction</strong> by averaging.</li>
+<li class="fragment">Trees interpretable, but high variance (sensitive to data).</li>
+<li class="fragment"><strong>Bootstrap aggregating:</strong> fit many models in parallel on bootstrap samples of the training data; average their predictions.</li>
+<li class="fragment">Averaging (or voting) reduces variance.</li>
 </ul>
+<div class="fragment">
+<div id="9469e63b" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="3_regularizationAndEnsembles_files/figure-revealjs/cell-3-output-1.png" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Adapted from <span class="citation" data-cites="murphy2022">Murphy (<a href="" role="doc-biblioref" onclick="return false;">2022, fig. 18.4</a>)</span>.</p>
+</div>
 </section>
 <section id="random-forests" class="slide level2">
 <h2>Random forests</h2>
 <ul>
-<li class="fragment">Bagging + at each split use a random subset of features (further decorrelates trees).</li>
-<li class="fragment">Average or vote.</li>
+<li class="fragment">Bagging but at each split use a random subset of features.</li>
+<li class="fragment">Further decorrelates trees.</li>
 </ul>
+<div class="fragment">
+<div id="1eb612b2" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="3_regularizationAndEnsembles_files/figure-revealjs/cell-4-output-1.png" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Adapted from <span class="citation" data-cites="murphy2022">Murphy (<a href="" role="doc-biblioref" onclick="return false;">2022, fig. 18.4</a>)</span>.</p>
+</div>
 </section>
 <section id="boosting" class="slide level2">
 <h2>Boosting</h2>
-<ul>
-<li class="fragment"><strong>Sequential:</strong> each new model focuses on errors (residuals) of the previous ones.</li>
-</ul>
+<p>Sequential: each new model focuses on errors (residuals) of the previous ones to iteratively improve weak learners.</p>
+<div class="fragment">
+<div id="0dfcf19b" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="3_regularizationAndEnsembles_files/figure-revealjs/cell-5-output-1.png" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Adapted from <span class="citation" data-cites="murphy2022">Murphy (<a href="" role="doc-biblioref" onclick="return false;">2022, fig. 18.6</a>)</span>.</p>
+</div>
 </section>
 <section id="gradient-boosting-and-xgboost" class="slide level2">
-<h2>Gradient boosting and XGBoost</h2>
+<h2>Gradient Boosting and XGBoost</h2>
 <ul>
-<li class="fragment"><strong>Gradient boosting:</strong> fit each tree to the negative gradient of the loss.</li>
-<li class="fragment"><strong>XGBoost:</strong> efficient implementation, widely used for tabular data.</li>
+<li class="fragment"><strong>Gradient boosting:</strong> sequentially fit shallow trees to the negative gradient (pseudo-residuals) of the loss.
+<ul>
+<li class="fragment">Gradient descent in function space: each step adds a small tree pointing in the direction that most reduces prediction error.</li>
+</ul></li>
+<li class="fragment"><strong>XGBoost:</strong> efficient implementation that adds L2 regularization on leaf weights, second-order (Newton) splits, column subsampling, and efficient handling of sparse data.
+<ul>
+<li class="fragment">State-of-the-art for tabular data.</li>
+</ul></li>
 </ul>
 </section></section>
 <section>
@@ -353,16 +401,41 @@ g[\phi] = \sum_j |\phi_j|
 <h1>Model interpretability</h1>
 
 </section>
-<section id="shapley-values-and-shap" class="slide level2">
-<h2>Shapley values and SHAP</h2>
+<section id="feature-attribution-shapley-values" class="slide level2">
+<h2>Feature attribution: Shapley values</h2>
+<p><em>Which input features contribute to model prediction?</em></p>
 <ul>
-<li class="fragment"><strong>Shapley value (game theory):</strong> Each player’s marginal contribution to a collective payoff, averaged over all possible permutations of joining a coalition.
-<ul>
-<li class="fragment">The only “fair” allocation method from cooperative game theory satisfying axioms like efficiency and symmetry.</li>
-</ul></li>
-<li class="fragment"><strong>SHAP (SHapley Additive exPlanations, Lundberg &amp; Lee, 2017):</strong> Applies this theory to models by treating features as players and the prediction as the payoff; provides additive feature attributions that are model-agnostic, consistent, and locally accurate.</li>
+<li class="fragment">Write prediction = baseline + sum of <strong>additive feature contributions</strong>:</li>
 </ul>
+<div class="fragment">
+<div style="font-size: 0.92em;">
+<p><span class="math display">\[
+\hat y(x)
+=
+\mathbb{E}[\hat y(X)]
++
+\sum_{f=1}^{D}
+\sum_{S \subseteq F \setminus \{f\}}
+\frac{|S|!\,(D-|S|-1)!}{D!}
+\Big(
+f_x(S \cup \{f\}) - f_x(S)
+\Big)
+\]</span></p>
+</div>
+<ul>
+<li class="fragment"><strong>Shapley value:</strong> <span class="math inline">\(f\)</span>’s average marginal contribution over all subsets <span class="math inline">\(S\)</span> of other features.
+<ul>
+<li class="fragment"><strong>Fair attribution</strong> (cooperative game theory): unique rule satisfying <em>efficiency</em>, <em>symmetry</em>, and <em>consistency</em></li>
+<li class="fragment">features = players, prediction = payoff</li>
+</ul></li>
+<li class="fragment"><strong>SHAP:</strong> practical method to approximate these values.</li>
+</ul>
+</div>
 </section>
+<section id="shapley-values" class="slide level2">
+<h2>Shapley values</h2>
+
+<img data-src="3_regularizationAndEnsembles_files/figure-revealjs/cell-6-output-1.png" class="quarto-figure quarto-figure-center r-stretch"></section>
 </section>
 
     </div>

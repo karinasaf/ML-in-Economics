@@ -81,6 +81,24 @@ Linear Algebra, calculus, probability theory and statistics, as well as programm
 
 # Contents and Schedule
 
+<!--
+## Weekly overview
+
+| Week | Topics | Prince (2023) | Murphy (2022) | Goodfellow et al. (2016) | Sutton & Barto (2018) |
+|:-----|:-------|:--------------|:--------------|:-------------------------|:----------------------|
+| 1 | Fundamentals; linear regression; probability & information theory | Ch. 1, 2, App. C | Ch. 1, 6, 7, 11 | Ch. 1, 2, 3, 5 | — |
+| 2 | Classification & discrete choice; loss functions; optimization; PyTorch; model evaluation | Ch. 5, 6, 8 | Ch. 8, 10, 11 | Ch. 5, 8 | — |
+| 3 | Trees, forests, boosting (CART, RF, XGBoost); regularization; interpretability (SHAP) | Ch. 9 | Ch. 18 | Ch. 6, 7 | — |
+| 4 | Shallow & deep NNs; backprop; CNNs | Ch. 3, 4, 7, 10 | Ch. 13, 14 | Ch. 6, 8, 9 | — |
+| 5 | RNNs, LSTMs; transformers; GPT; LLMs; finetuning | Ch. 12 | Ch. 15 | Ch. 10, 12, 15 | — |
+| 6 | Unsupervised learning; clustering & dimensionality reduction; VAE; diffusion | Ch. 14, 17, 18 | Ch. 20, 21 | Ch. 13, 14, 20 | — |
+| 7 | Bandits; MDPs; value functions; Q-learning; DQN; PPO; RLHF | Ch. 19 | — | — | Ch. 2, 3, 4, 5, 6 |
+| 8 | Synthesis: information-theoretic view; KL divergence | — | Ch. 6 | Ch. 3 | — |
+| 9 | ML and economics; prediction vs. inference | — | — | — | — |
+
+*Table: Course weeks with main topics and corresponding textbook chapters. Prince = Understanding Deep Learning; Murphy = Probabilistic Machine Learning: An Introduction; Goodfellow et al. = Deep Learning; Sutton & Barto = Reinforcement Learning: An Introduction.*
+-->
+
 ## Part 1: Supervised Machine Learning
 
 ### Fundamentals and Linear Regression - Week 1 (24 January 2026)
@@ -93,22 +111,23 @@ Linear Algebra, calculus, probability theory and statistics, as well as programm
 
 ### Model Fitting and Optimization - Week 2 (31 January 2026)
 
--   Optimization: Gradient descent, stochastic gradient descent, Adam optimizer [@prince2023, Chapter 6]
--   Introducing PyTorch 
--   Model Evaluation: Bias-variance tradeoff and overfitting, training/test set and cross-validation, double descent [@prince2023, Chapter 8]
--   Multinomial Logit and Discrete Choice 
+-   Classification and discrete choice 
 -   Loss functions [@prince2023, Chapter 5]
--   CART (Classification and Regression Trees) and ensemble methods for tabular data: bagging (random forests) and gradient boosting (XGBoost)
+-   Optimization: Gradient descent, stochastic gradient descent, Adam optimizer [@prince2023, Chapter 6]
+-   Introducing PyTorch
+-   Model evaluation: bias-variance tradeoff and overfitting, training/test set and cross-validation, double descent [@prince2023, Chapter 8]
 -   Economic applications: 
   - Regression: house price prediction, earnings forecasts, etc.
   - Classification: discrete choice, credit/default risk, etc.
 
-
-### Classification and Logistic Regression - Week 3 (7 February 2026)
+### Trees, Forests, Boosting, and Regularization - Week 3 (7 February 2026)
 
 -   Regularization: Explicit and implicit regularization, dropout, transfer learning [@prince2023, Chapter 9]
+-   Nonparametric methods: CART (Classification and Regression Trees) 
+-   Ensemble methods: bagging (random forests), gradient boosting (XGBoost) [@murphy2022, Chapter 18]
 -   Model interpretability: Shapley values and SHAP for feature attribution
--   Prediction vs. inference: causal ML topics (e.g., DML, causal forests) are covered in D300 
+-   Prediction vs. inference
+  - causal ML topics (e.g., Double/Debiased Machine Learning, causal forests) are covered in D300 
 -   Introduction to Research Project  
 
 
@@ -153,7 +172,6 @@ Linear Algebra, calculus, probability theory and statistics, as well as programm
 
 ### Unsupervised Learning & Generative Models - Week 6 (28 February 2026)
 
-
 -   Unsupervised Learning [@prince2023, Chapter 14]
 -   Clustering and dimensionality reduction: K-means, PCA (latent space intuition)
 -   Variational Autoencoders (VAE) [@prince2023, Chapter 17]
@@ -170,7 +188,7 @@ Linear Algebra, calculus, probability theory and statistics, as well as programm
 -->
 
 
-## Part 3: Reinforcement Learning
+## Part 3: Reinforcement Learning and Alignment
 
 ### Reinforcement Learning - Week 7 (7 March 2026)
 
@@ -179,7 +197,6 @@ Linear Algebra, calculus, probability theory and statistics, as well as programm
 -   Bellman equations
 -   Q-Learning and Deep Q-Networks
 -   Proximal Policy Optimization (PPO)
--   Reinforcement Learning from Human Feedback (RLHF): Alignment of Large Language Models
 -   Economic application: online experimentation, multi-armed bandit testing, ad allocation, and dynamic pricing
 
 <!--
@@ -192,15 +209,21 @@ Linear Algebra, calculus, probability theory and statistics, as well as programm
 -->
 
 
+### Alignment - Week 8 (14 March 2026)
+
+-   Supervised Finetuning (LORA)
+-   Reinforcement Learning from Human Feedback (RLHF): Reward modeling (Bradley-Terry model) for PPO, DeepSeek (GRPO), and Direct Preference Optimization (DPO)
+-   The Economics of Finetuning (from API system prompt (``wrapper startups'') to LORA to RLHF to training foundation models)
+-   Agentic AI 
+
+
 ## Part 4: ML and Economics
 
-### Synthesis: Information-Theoretic Principles - Week 8 (14 March 2026)
+
+### Information-Theoretic Synthesis, ML and Economics - Week 9 (21 March 2026)
 
 -   Review and synthesis: The information-theoretic lens as a unifying principle [@alemi2024]
 -   Unified view of supervised learning, unsupervised learning, and representation learning through KL divergence minimization
-
-### ML and Economics - Week 9 (21 March 2026)
-
 -   Prediction vs. estimation/inference [@athey2019]
 -   Applications of ML in economics
 
@@ -261,7 +284,7 @@ Attendance
 : Regular attendance at lectures and classes is mandatory.
 
 Academic Misconduct and AI
-: All work submitted must strictly adhere to the University's [Plagiarism and Academic Misconduct Policies](https://www.educationalpolicy.admin.cam.ac.uk/plagiarism-and-academic-misconduct), including on the use of [Artificial Intelligence](https://www.educationalpolicy.admin.cam.ac.uk/plagiarism-and-academic-misconduct/artificial-intelligence-ai). Failure to do so may result in serious disciplinary consequences.
+: All work submitted must strictly adhere to the University's [Plagiarism and Academic Misconduct Policies](https://www.educationalpolicy.admin.cam.ac.uk/plagiarism-and-academic-misconduct), including on the use of [Artificial Intelligence](https://www.educationalpolicy.admin.cam.ac.uk/plagiarism-and-academic-misconduct/artificial-intelligence-ai). Failure to do so may result in serious disciplinary consequences. Further guidance is available in the [University Statement on AI and Assessment](https://blendedlearning.cam.ac.uk/artificial-intelligence-and-education/generative-ai-and-assessment) and the [AI Policy Framework](https://blendedlearning.cam.ac.uk/ai-policy-framework). 
 
 Late Submissions
 : Assignments submitted after the deadline will be penalized (unless an extension is granted in advance) by 10% per 24 hours (additively, i.e. a submission received 49 hours after the deadline will receive 70% of full marks). 
