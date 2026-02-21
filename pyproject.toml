@@ -66,6 +66,10 @@ dependencies = [
 
     # Discrete choice
     "choice-learn",
+
+    # Reinforcement Learning
+    "gymnasium",
+    "stable-baselines3",
 ]
 
 # No build-system - this is a course project, not an installable package

@@ -107,6 +107,8 @@ Linear Algebra, calculus, probability theory and statistics, as well as programm
 -   Linear Regression: Minimizing mean-squared error using matrix notation [@prince2023, Chapter 2]
   -   sklearn
 -   Probability and information theory fundamentals [@prince2023, Appendix C]
+  -   Recommended viewing: [Bayes theorem](https://www.3blue1brown.com/lessons/bayes-theorem) 
+  -   Helpful Refresher: [Essence of Linear Algebra](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab)  
 
 
 ### Model Fitting and Optimization - Week 2 (31 January 2026)
@@ -119,6 +121,7 @@ Linear Algebra, calculus, probability theory and statistics, as well as programm
 -   Economic applications: 
   - Regression: house price prediction, earnings forecasts, etc.
   - Classification: discrete choice, credit/default risk, etc.
+-   Recommended viewing: [Gradient descent](https://www.3blue1brown.com/lessons/gradient-descent) 
 
 ### Trees, Forests, Boosting, and Regularization - Week 3 (7 February 2026)
 
@@ -149,6 +152,7 @@ Linear Algebra, calculus, probability theory and statistics, as well as programm
 -   Deep feedforward neural networks (multi-layer perceptrons) [@prince2023, Chapter 4]
 -   Backpropagation [@prince2023, Chapter 7]
 -   Convolutional neural networks (CNN) [@prince2023, Chapter 10]
+-   Recommended viewing: [But what is a Neural Network?](https://www.3blue1brown.com/lessons/neural-networks); [Analyzing our neural network](https://www.3blue1brown.com/lessons/neural-network-analysis); [Backpropagation](https://www.3blue1brown.com/lessons/backpropagation) and [Backpropagation calculus](https://www.3blue1brown.com/lessons/backpropagation-calculus); [But what is a convolution?](https://www.3blue1brown.com/lessons/convolutions)
 
 
 
@@ -162,6 +166,8 @@ Linear Algebra, calculus, probability theory and statistics, as well as programm
 -   Large Language Models (LLM) 
 -   Post-training: Finetuning and adaptation (e.g., QLoRA)
 -   Economic application: text-as-data for empirical microeconomics (cf. D001 course)
+-   Recommended viewing: [LLMs explained briefly](https://www.3blue1brown.com/lessons/mini-llm); [Transformers](https://www.3blue1brown.com/lessons/gpt); [Attention in transformers](https://www.3blue1brown.com/lessons/attention); [How might LLMs store facts](https://www.3blue1brown.com/lessons/mlp)
+-   Extra: [Let's build GPT](https://www.youtube.com/watch?v=kCc8FmEb1nY) and [Let's build the GPT Tokenizer](https://www.youtube.com/watch?v=zduSFxRajkE) 
 
 <!--
 #### Topics Not Currently Covered
@@ -177,6 +183,7 @@ Linear Algebra, calculus, probability theory and statistics, as well as programm
 -   Variational Autoencoders (VAE) [@prince2023, Chapter 17]
 -   Diffusion Models [@prince2023, Chapter 18]
 -   Economic application: marketing
+-   Recommended viewing: [But how do AI images and videos actually work?](https://www.youtube.com/watch?v=iv-5mZ_9CPY) 
 
 <!--
 #### Topics Not Currently Covered
@@ -215,6 +222,7 @@ Linear Algebra, calculus, probability theory and statistics, as well as programm
 -   Reinforcement Learning from Human Feedback (RLHF): Reward modeling (Bradley-Terry model) for PPO, DeepSeek (GRPO), and Direct Preference Optimization (DPO)
 -   The Economics of Finetuning (from API system prompt (``wrapper startups'') to LORA to RLHF to training foundation models)
 -   Agentic AI 
+-   Extra: [Deep Dive into LLMs like ChatGPT](https://www.youtube.com/watch?v=7xTGNNLPyMI); [nanochat](https://github.com/karpathy/nanochat)
 
 
 ## Part 4: ML and Economics
