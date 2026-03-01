@@ -240,6 +240,7 @@ Linear Algebra, calculus, probability theory and statistics, as well as programm
 
 -   Brief remarks on causal inference (separate module)
 -   Matrix completion problem: Consumer choice modeling and application to recommender systems
+-   Algorithmic auditing and interpretability as behavioral diagnostics: Using SHAP, attention maps, etc. as tools for understanding what ML models learn about human cognition. 
 -->
 
 
